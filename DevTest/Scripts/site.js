@@ -71,7 +71,6 @@ function siteInit() {
         $('#upScore').val('');
         startDate = "";
         endDate = "";
-        currentSort = "";
         updateTable();
     });
 

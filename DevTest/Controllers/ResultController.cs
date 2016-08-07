@@ -146,6 +146,7 @@ namespace DevTest.Controllers
 
             ViewBag.Sort = sort;
             ViewBag.Record = recordNumber;
+            ViewBag.DefaultSite = defaultSite;
 
             return PartialView("_ResultTable", devTestUserResults.ToPagedList(pageNumber, pageSize));
         }
