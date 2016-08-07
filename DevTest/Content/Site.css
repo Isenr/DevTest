@@ -125,16 +125,15 @@ textarea {
     padding-bottom: 4px;
 }
 
-
 /* Mobile styles */
-@media (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     .table-reflow thead {
         float: left;
         width:30%;
     }
 
     .table-reflow tbody {
-        display: block !important;
+        display: block;
         white-space: nowrap;
         width:100%;
     }
@@ -157,8 +156,8 @@ textarea {
 
     .table-reflow tr th,
     .table-reflow tr td {
-        display: block !important;
-        border:solid 2px #f77d4c !important;
+        display: block;
+        border:solid 2px #f77d4c;
     }
 
     .pagination-container {
@@ -167,5 +166,20 @@ textarea {
 
     .mobile-pagination {
         display: block;
+    }
+
+    .name-search-form {
+        border: none;
+        box-shadow: none;
+    }
+}
+
+@media only screen and (max-width:400px){
+    .table-reflow thead {
+        width:50% !important;
+    }
+
+    .table-reflow tbody tr {
+        width:50% !important;
     }
 }

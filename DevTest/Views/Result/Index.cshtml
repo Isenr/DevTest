@@ -1,16 +1,14 @@
 ﻿@model PagedList.IPagedList<DevTest.devTestUserResult>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div class="row">
-    <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
-        <form class="navbar-form" role="search" id="SearchName" style="margin-left:0px">
+<div class="row" style="padding-left:20px;padding-right:20px">
+    <div style="float:right">
+        <form class="navbar-form name-search-form" role="search" id="SearchName" style="margin-left:0px">
             <div>
                 <label for="NameSearch">Search by First / Last Name</label>
             </div>
             <div class="input-group" style="display:block">
                 @Html.TextBox("NameSearch", null, new { @class = "form-control", @placeholder = "Search", @style = "width:auto" })
-                <div class="input-group-btn" style="display:block">
+                <div class="input-group-btn">
                     <input id="SearchSubmit" type="submit" value="Submit" class="btn btn-default" />
                 </div>
             </div>
@@ -23,7 +21,7 @@
 <div class="row" style="padding-left:50px;padding-right:50px">
     <form class="form-horizontal" role="form">
         <div class="row">
-            <div class="col-sm-4 col-md-3 col-xs-12">
+            <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <div>
                         <label for="Sites" class="control-label">Filter by site</label>
@@ -33,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-3 col-xs-12">
+            <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <div>
                         <label class="control-label">Filter by test result</label>
@@ -61,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-4 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <div>
                         <label for="daterange" class="control-label">Filter by Test Date Range</label>
@@ -74,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-2 col-xs-12">
+            <div class="col-md-2 col-sm-6 col-xs-12">
                 <div>
                     <label for="ClearFilters" class="control-label"></label>
                 </div>

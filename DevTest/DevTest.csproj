@@ -137,7 +137,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="DevTestModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -164,7 +163,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ResultViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datepicker.css" />
@@ -243,13 +241,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Result\Create.cshtml" />
-    <Content Include="Views\Result\Delete.cshtml" />
-    <Content Include="Views\Result\Details.cshtml" />
-    <Content Include="Views\Result\Edit.cshtml" />
     <Content Include="Views\Result\Index.cshtml" />
     <Content Include="Views\Result\_ResultTable.cshtml" />
   </ItemGroup>

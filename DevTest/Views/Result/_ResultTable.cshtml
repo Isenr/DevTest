@@ -1,12 +1,9 @@
 ﻿@model PagedList.IPagedList<DevTest.devTestUserResult>
-@using PagedList.Mvc;
 
 @{ 
     ViewBag.PrevPage = Model.PageNumber - 1;
     ViewBag.NextPage = Model.PageNumber + 1;
 }
-
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <div id="resultTable">
     <table class="table table-reflow">
@@ -253,61 +250,16 @@
 }
 
 <script type="text/javascript">
-    // when document ready add event listener to table headings
-    $(document).ready(function () {
-        $('.tableHead').click(function (event) {
-            if (currentSort === "" || currentSort !== this.id.replace("Head", "")) {
-                currentSort = this.id.replace("Head", "");
-                console.log("1");
-                sortDirection = "Asc";
-            } else if (currentSort === this.id.replace("Head", "") && sortDirection === "Asc") {
-                sortDirection = "Desc";
-                console.log("2");
-            } else if (currentSort === this.id.replace("Head", "") && sortDirection == "Desc") {
-                currentSort = "";
-                sortDirection = "Asc";
-                console.log("3");
-            }
-            console.log("sort");
-            updateTable();
-        });
-    });
-
-    function changeRecord(dir) {
-        var pageSize = @Model.Count ;
-        var recordNum = parseInt( $('#tableData').find('.active-row').attr('id') );
-        if ( recordNum < pageSize ) {
-            if (dir === "next") {
-                $('#tableData').find('.active-row').addClass('inactive-row').removeClass('active-row');
-                $('#' + (recordNum + 1)).removeClass('inactive-row').addClass('active-row');
-                if ( recordNum === 1 ){
-                    $('#PrevRecordSpan').removeClass('hidden');
-                }
-                if ( @Model.PageNumber == @Model.PageCount && (recordNum+1) == pageSize )
-                {
-                    console.log("hide");
-                    $('#NextRecordSpan').addClass('hidden');
-                }
-                else
-                {
-                    $('#NextRecordSpan').removeClass('hidden');
-                }
-            } else if (dir === "prev" && recordNum != 1) {
-                $('#tableData').find('.active-row').addClass('inactive-row').removeClass('active-row');
-                $('#' + (recordNum - 1)).removeClass('inactive-row').addClass('active-row');
-                if ( (recordNum-1) == 1 && @Model.PageNumber == 1 ){
-                    console.log("hide");
-                    $('#PrevRecordSpan').addClass('hidden');
-                }
-                else
-                {
-                    $('#PrevRecordSpan').removeClass('hidden');
-                }
-            } else if (dir == "prev" && @Model.PageNumber != 1) {
-                updateTable( @ViewBag.PrevPage , @Model.PageSize);
-            }
-        } else if (dir === "next" && @Model.PageNumber < @Model.PageCount ) {
-            updateTable( @ViewBag.NextPage );
-        }
-    }
+    // variables used in switching visible record when displayed on a mobile device
+    // total number of records in page
+    var modelCount = @Model.Count ;
+    // current page number
+    var pageNum = @Model.PageNumber ;
+    // total number of pages
+    var pageCount = @Model.PageCount ;
+    // maximum number of records per page
+    // required for going to previous page and displaying last record of page
+    var pageSize = @Model.PageSize ;
+    // default value of Sites dropdown
+    var defaultSite = "@ViewBag.DefaultSite" ;
 </script>

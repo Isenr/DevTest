@@ -23,13 +23,15 @@ namespace DevTest
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/daterangepicker").Include(
+            bundles.Add(new ScriptBundle("~/bundles/site").Include(
                       "~/Scripts/moment.js",
-                      "~/Scripts/daterangepicker.js"));
+                      "~/Scripts/daterangepicker.js",
+                      "~/Scripts/site.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/daterangepicker.css",
+                      "~/Content/PagedList.css",
                       "~/Content/site.css"));
         }
     }

@@ -21,7 +21,6 @@ namespace DevTest.Controllers
         public ActionResult Index()
         {
             var devTestUserResults = db.devTestUserResults.Include(d => d.devTestUser);
-            ViewBag.RecordCount = devTestUserResults.Count();
 
             if (devTestUserResults == null)
             {
@@ -30,13 +29,18 @@ namespace DevTest.Controllers
 
             List<string> siteList = new List<string>();
             siteList.Add(defaultSite);
+
+            // try catch in case underlying data provider fails to open
             try
             {
+                ViewBag.RecordCount = devTestUserResults.Count();
                 siteList.AddRange(devTestUserResults.Select(r => r.devTestUser.site).Distinct());
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return HttpNotFound();
             }
+
             ViewBag.Sites = new SelectList(siteList);
             ViewBag.ScoreLength = devTestUserResults.Select(r => r.testResultDenominator).Max().ToString().Length;
             ViewBag.DefaultSite = defaultSite;
@@ -132,116 +136,18 @@ namespace DevTest.Controllers
                     devTestUserResults = devTestUserResults.OrderBy(r => r.id);
                     break;
             }
+
+            // set values for page number and record number if none supplied
             int pageNumber = (page ?? 1);
             int recordNumber = (record ?? 1);
+            // validate page number and record number
+            pageNumber = (pageNumber >= 1 && pageNumber <= ((devTestUserResults.Count() / pageSize) + 1)) ? pageNumber : 1;
+            recordNumber = (recordNumber <= pageSize) ? recordNumber : 1;
 
             ViewBag.Sort = sort;
-            ViewBag.Name = name;
-            ViewBag.Site = site;
-            ViewBag.LowScore = lowScore;
-            ViewBag.UpScore = upScore;
             ViewBag.Record = recordNumber;
 
             return PartialView("_ResultTable", devTestUserResults.ToPagedList(pageNumber, pageSize));
-        }
-
-        // GET: Result/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            devTestUserResult devTestUserResult = db.devTestUserResults.Find(id);
-            if (devTestUserResult == null)
-            {
-                return HttpNotFound();
-            }
-            return View(devTestUserResult);
-        }
-
-        // GET: Result/Create
-        public ActionResult Create()
-        {
-            ViewBag.userId = new SelectList(db.devTestUsers, "id", "firstName");
-            return View();
-        }
-
-        // POST: Result/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,userId,dateTaken,testResultNumerator,testResultDenominator")] devTestUserResult devTestUserResult)
-        {
-            if (ModelState.IsValid)
-            {
-                db.devTestUserResults.Add(devTestUserResult);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.userId = new SelectList(db.devTestUsers, "id", "firstName", devTestUserResult.userId);
-            return View(devTestUserResult);
-        }
-
-        // GET: Result/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            devTestUserResult devTestUserResult = db.devTestUserResults.Find(id);
-            if (devTestUserResult == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.userId = new SelectList(db.devTestUsers, "id", "firstName", devTestUserResult.userId);
-            return View(devTestUserResult);
-        }
-
-        // POST: Result/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,userId,dateTaken,testResultNumerator,testResultDenominator")] devTestUserResult devTestUserResult)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(devTestUserResult).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.userId = new SelectList(db.devTestUsers, "id", "firstName", devTestUserResult.userId);
-            return View(devTestUserResult);
-        }
-
-        // GET: Result/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            devTestUserResult devTestUserResult = db.devTestUserResults.Find(id);
-            if (devTestUserResult == null)
-            {
-                return HttpNotFound();
-            }
-            return View(devTestUserResult);
-        }
-
-        // POST: Result/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            devTestUserResult devTestUserResult = db.devTestUserResults.Find(id);
-            db.devTestUserResults.Remove(devTestUserResult);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
