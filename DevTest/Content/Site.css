@@ -1,4 +1,9 @@
-﻿body {
+﻿/*
+    Desktop first since couldn't figure out how to 
+    un-reflow the table
+*/
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
     background-color:#44505f;
@@ -125,6 +130,10 @@ textarea {
     padding-bottom: 4px;
 }
 
+.upper-form {
+    float:right;
+}
+
 /* Mobile styles */
 @media only screen and (max-width: 768px) {
     .table-reflow thead {
@@ -171,6 +180,10 @@ textarea {
     .name-search-form {
         border: none;
         box-shadow: none;
+    }
+
+    .upper-form {
+        float:left;
     }
 }
 

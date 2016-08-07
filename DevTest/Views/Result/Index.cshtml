@@ -1,14 +1,14 @@
 ﻿@model PagedList.IPagedList<DevTest.devTestUserResult>
 
 <div class="row" style="padding-left:20px;padding-right:20px">
-    <div style="float:right">
+    <div class="upper-form">
         <form class="navbar-form name-search-form" role="search" id="SearchName" style="margin-left:0px">
             <div>
                 <label for="NameSearch">Search by First / Last Name</label>
             </div>
             <div class="input-group" style="display:block">
                 @Html.TextBox("NameSearch", null, new { @class = "form-control", @placeholder = "Search", @style = "width:auto" })
-                <div class="input-group-btn">
+                <div class="input-group-btn" style="display:inline">
                     <input id="SearchSubmit" type="submit" value="Submit" class="btn btn-default" />
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 <div>
                     <label for="ClearFilters" class="control-label"></label>
                 </div>
-                <div class="form-group" style="padding-top:7px">
+                <div class="form-group" style="padding-top:14px">
                     <input id="ClearFilters" type="button" value="Reset all filters" class="btn btn-default" />
                 </div>
             </div>
