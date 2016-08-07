@@ -3,40 +3,135 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Test Results</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/daterangepicker")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        var currentSort = "";
+        var sortDirection = "Asc";
+        var startDate = "";
+        var endDate = "";
+
+        function updateTable(newPage, nextRecord) {
+            console.log("update");
+            $.ajax({
+                url: '/Result/UpdateTable',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    sort: currentSort + sortDirection,
+                    name: $('#NameSearch').val(),
+                    site: $('#Sites').val(),
+                    lowScore: $('#lowScore').val(),
+                    upScore: $('#upScore').val(),
+                    dateStart: startDate,
+                    dateEnd: endDate,
+                    page: newPage,
+                    record: nextRecord
+                },
+                success: function (data) {
+                    $('#dataSection').empty();
+                    $('#dataSection').html(data);
+                    console.log("success");
+                },
+                error: function (jx, status, error) {
+                    alert(error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            console.log("ready");
+
+            $('#calendarglyph').click(function () {
+                $('#daterange').click();
+            });
+            $('#daterange').daterangepicker({
+                "autoApply": true,
+                "opens": "left",
+                "locale": {
+                    "direction": "ltr",
+                    "format": "MM/DD/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Apply",
+                    "cancelLabel": "Cancel",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "daysOfWeek": [
+                        "Su",
+                        "Mo",
+                        "Tu",
+                        "We",
+                        "Th",
+                        "Fr",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                    "firstDay": 0
+                },
+                "startDate": "07/30/2016",
+                "endDate": "08/05/2016",
+                "minDate": "01/01/1900",
+                "maxDate": "01/01/2100"
+            }, function (start, end, label) {
+                console.log("New date range selected: " + start.format('YYYY-MM-DD') + " to " + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
+                startDate = start.format('YYYY-MM-DD');
+                endDate = end.format('YYYY-MM-DD');
+                updateTable();
+            });
+
+            $('#SearchName').submit(function (event) {
+                event.preventDefault();
+                updateTable();
+            });
+
+            $('#ClearFilters').click(function (event) {
+                console.log("clear");
+                $('#NameSearch').val('');
+                $('#Sites').val("@ViewBag.DefaultSite");
+                $('#lowScore').val('');
+                $('#upScore').val('');
+                startDate = "";
+                endDate = "";
+                updateTable();
+            });
+
+            $('.filter').change(function () {
+                updateTable();
+            });
+
+            $('.changePage').click(function (event) {
+                console.log(this.Attr("data-value"));
+                updateTable(@Model.PageNumber+1);
+                console.log("next page");
+            });
+        });
+    </script>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
 </body>
 </html>

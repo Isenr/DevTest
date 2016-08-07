@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DevTestAdminModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="devTestUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="firstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="lastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="site" Type="varchar(max)" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="devTestUserResult">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="dateTaken" Type="datetime" Nullable="false" />
+          <Property Name="testResultNumerator" Type="int" Nullable="false" />
+          <Property Name="testResultDenominator" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__devTestUs__userI__2F10007B">
+          <End Role="devTestUser" Type="Self.devTestUser" Multiplicity="1" />
+          <End Role="devTestUserResult" Type="Self.devTestUserResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="devTestUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="devTestUserResult">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DevTestAdminModelStoreContainer">
+          <EntitySet Name="devTestUser" EntityType="Self.devTestUser" Schema="DevTestAdmin" store:Type="Tables" />
+          <EntitySet Name="devTestUserResult" EntityType="Self.devTestUserResult" Schema="DevTestAdmin" store:Type="Tables" />
+          <AssociationSet Name="FK__devTestUs__userI__2F10007B" Association="Self.FK__devTestUs__userI__2F10007B">
+            <End Role="devTestUser" EntitySet="devTestUser" />
+            <End Role="devTestUserResult" EntitySet="devTestUserResult" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DevTestAdminModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="devTestUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="site" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="devTestUserResults" Relationship="Self.FK__devTestUs__userI__2F10007B" FromRole="devTestUser" ToRole="devTestUserResult" />
+        </EntityType>
+        <EntityType Name="devTestUserResult">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dateTaken" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="testResultNumerator" Type="Int32" Nullable="false" />
+          <Property Name="testResultDenominator" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="devTestUser" Relationship="Self.FK__devTestUs__userI__2F10007B" FromRole="devTestUserResult" ToRole="devTestUser" />
+        </EntityType>
+        <Association Name="FK__devTestUs__userI__2F10007B">
+          <End Role="devTestUser" Type="Self.devTestUser" Multiplicity="1" />
+          <End Role="devTestUserResult" Type="Self.devTestUserResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="devTestUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="devTestUserResult">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DevTestAdminEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="devTestUsers" EntityType="Self.devTestUser" />
+          <EntitySet Name="devTestUserResults" EntityType="Self.devTestUserResult" />
+          <AssociationSet Name="FK__devTestUs__userI__2F10007B" Association="Self.FK__devTestUs__userI__2F10007B">
+            <End Role="devTestUser" EntitySet="devTestUsers" />
+            <End Role="devTestUserResult" EntitySet="devTestUserResults" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DevTestAdminModelStoreContainer" CdmEntityContainer="DevTestAdminEntities">
+          <EntitySetMapping Name="devTestUsers">
+            <EntityTypeMapping TypeName="DevTestAdminModel.devTestUser">
+              <MappingFragment StoreEntitySet="devTestUser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="site" ColumnName="site" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="devTestUserResults">
+            <EntityTypeMapping TypeName="DevTestAdminModel.devTestUserResult">
+              <MappingFragment StoreEntitySet="devTestUserResult">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="dateTaken" ColumnName="dateTaken" />
+                <ScalarProperty Name="testResultNumerator" ColumnName="testResultNumerator" />
+                <ScalarProperty Name="testResultDenominator" ColumnName="testResultDenominator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

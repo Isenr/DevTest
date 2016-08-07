@@ -1,12 +1,67 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color:#44505f;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.table-reflow {
+    background-color: #ffffff;
+    color:#323b45;
+    border-style:solid;
+    border-width:6px;
+    border-color:#f77d4c;
+}
+
+.table-reflow tr th,
+.table-reflow tr td {
+    border:solid 2px #f77d4c !important;
+}
+
+.table-condensed tbody tr td {
+    border:solid 0.5px lightgray;
+}
+
+.table-condensed thead tr:first-child {
+    border:solid 1.2px lightgray;
+}
+
+.tableHead {
+    color:#f77d4c;
+    border-style:solid;
+    border-width:2px;
+    border-color:#f77d4c;
+}
+
+a, a:hover, a:focus {
+    color:#ffffff;
+    text-decoration: underline;
+}
+
+.active {
+    color:#ffffff;
+}
+
+#PrevPage {
+    padding-right:28px;
+}
+
+#NextPage {
+    padding-left:28px;
+}
+
+label {
+    font-size:1.2em;
+    color:#ffffff;
+}
+
+.score-label {
+    color:#ffffff;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +76,96 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+#calendarglyph {
+    margin-top: -4px;
+	cursor: pointer;
+}
+
+.sort-btn {
+    float:right;
+}
+
+.sort-inactive {
+    color:#D2D2D2;
+}
+
+.inline-control {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.mobile-pagination {
+    display: none;
+}
+
+.score-input {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    display: inline;
+}
+
+#Sites {
+    width:200px;
+}
+
+#SearchSubmit {
+    margin-left: 5px;
+    border-radius: 4px;
+}
+
+#NameSearch {
+    border-radius: 4px;
+}
+
+.control-label {
+    padding-bottom: 4px;
+}
+
+
+/* Mobile styles */
+@media (max-width: 600px) {
+    .table-reflow thead {
+        float: left;
+        width:30%;
+    }
+
+    .table-reflow tbody {
+        display: block !important;
+        white-space: nowrap;
+        width:100%;
+    }
+
+    .table-reflow tbody tr {
+        width:70%;
+    }
+
+    .table-reflow thead tr {
+        width:100%;
+    }
+
+    .table-reflow tr {
+        float: left;
+    }
+
+    .inactive-row {
+        display: none;
+    }
+
+    .table-reflow tr th,
+    .table-reflow tr td {
+        display: block !important;
+        border:solid 2px #f77d4c !important;
+    }
+
+    .pagination-container {
+        display: none;
+    }
+
+    .mobile-pagination {
+        display: block;
+    }
 }

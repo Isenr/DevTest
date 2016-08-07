@@ -1,0 +1,313 @@
+﻿@model PagedList.IPagedList<DevTest.devTestUserResult>
+@using PagedList.Mvc;
+
+@{ 
+    ViewBag.PrevPage = Model.PageNumber - 1;
+    ViewBag.NextPage = Model.PageNumber + 1;
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div id="resultTable">
+    <table class="table table-reflow">
+        <thead>
+            <tr>
+                <th class="tableHead" id="firstNameHead">
+                    @Html.DisplayNameFor(model => model.First().devTestUser.firstName)
+                    @if (ViewBag.Sort == "firstNameDesc")
+                    {
+                        <span class="sort-btn">&#x25b2;</span>
+                    }
+                    else if (ViewBag.Sort == "firstNameAsc")
+                    {
+                        <span class="sort-btn">&#x25bc;</span>
+                    }
+                    else
+                    {
+                        <span class="sort-btn sort-inactive">&#x25bc;</span>
+                    }
+                </th>
+                <th class="tableHead" id="lastNameHead">
+                    @Html.DisplayNameFor(model => model.First().devTestUser.lastName)
+                    @if (ViewBag.Sort == "lastNameDesc")
+                    {
+                        <span class="sort-btn">&#x25b2;</span>
+                    }
+                    else if (ViewBag.Sort == "lastNameAsc")
+                    {
+                        <span class="sort-btn">&#x25bc;</span>
+                    }
+                    else
+                    {
+                        <span class="sort-btn sort-inactive">&#x25bc;</span>
+                    }
+                </th>
+                <th class="tableHead" id="siteHead">
+                    @Html.DisplayNameFor(model => model.First().devTestUser.site)
+                    @if (ViewBag.Sort == "siteDesc")
+                    {
+                        <span class="sort-btn">&#x25b2;</span>
+                    }
+                    else if (ViewBag.Sort == "siteAsc")
+                    {
+                        <span class="sort-btn">&#x25bc;</span>
+                    }
+                    else
+                    {
+                        <span class="sort-btn sort-inactive">&#x25bc;</span>
+                    }
+                </th>
+                <th class="tableHead" id="joinedHead">
+                    @Html.DisplayNameFor(model => model.First().devTestUser.dateCreated)
+                    @if (ViewBag.Sort == "joinedDesc")
+                    {
+                        <span class="sort-btn">&#x25b2;</span>
+                    }
+                    else if (ViewBag.Sort == "joinedAsc")
+                    {
+                        <span class="sort-btn">&#x25bc;</span>
+                    }
+                    else
+                    {
+                        <span class="sort-btn sort-inactive">&#x25bc;</span>
+                    }
+                </th>
+                <th class="tableHead" id="scoreHead">
+                    @Html.DisplayNameFor(model => model.First().testResultNumerator)
+                    @if (ViewBag.Sort == "scoreDesc")
+                    {
+                        <span class="sort-btn">&#x25b2;</span>
+                    }
+                    else if (ViewBag.Sort == "scoreAsc")
+                    {
+                        <span class="sort-btn">&#x25bc;</span>
+                    }
+                    else
+                    {
+                        <span class="sort-btn sort-inactive">&#x25bc;</span>
+                    }
+                </th>
+                <th class="tableHead" id="takenHead">
+                    @Html.DisplayNameFor(model => model.First().dateTaken)
+                    @if (ViewBag.Sort == "takenDesc")
+                    {
+                        <span class="sort-btn">&#x25b2;</span>
+                    }
+                    else if (ViewBag.Sort == "takenAsc")
+                    {
+                        <span class="sort-btn">&#x25bc;</span>
+                    }
+                    else
+                    {
+                        <span class="sort-btn sort-inactive">&#x25bc;</span>
+                    }
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableData">
+            @{ 
+                int row = 1;
+                string rowClass = "active-row";
+            }
+            @foreach (var item in Model)
+            {
+                if (row == ViewBag.Record)
+                {
+                    rowClass = "active-row";
+                }
+                else
+                {
+                    rowClass = "inactive-row";
+                }
+                <tr id="@row" class="@rowClass">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.devTestUser.firstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.devTestUser.lastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.devTestUser.site)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.devTestUser.dateCreated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.testResult)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dateTaken)
+                    </td>
+                </tr>
+                row++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<br />
+
+@if (Model.Count() > 1)
+{
+    <div class="mobile-pagination">
+        @if (Model.PageNumber == 1 && ViewBag.Record == 1)
+        {
+            <span id="PrevRecordSpan" class="pull-left hidden">
+                <a href="javascript:void(0)" onclick="changeRecord('prev')">< Previous Record</a>
+            </span>
+        }
+        else
+        {
+            <span id="PrevRecordSpan" class="pull-left">
+                <a href="javascript:void(0)" onclick="changeRecord('prev')">< Previous Record</a>
+            </span>
+        }
+        @if (Model.PageNumber == Model.PageCount && Model.Count() == 1)
+        {
+            <span id="NextRecordSpan" class="pull-right hidden">
+                <a href="javascript:void(0)" onclick="changeRecord('next')">Next Record ></a>
+            </span>
+        }
+        else
+        {
+            <span id="NextRecordSpan" class="pull-right">
+                <a href="javascript:void(0)" onclick="changeRecord('next')">Next Record ></a>
+            </span>
+        }
+    </div>
+}
+
+@if (Model.PageCount > 1)
+{
+    <div class="pagination-container text-center">
+            @if (Model.PageNumber != 1)
+            {
+                <span id="PrevPage">
+                    <a href="javascript:void(0)" onclick="updateTable(@ViewBag.PrevPage)">Previous Page</a>
+                </span>
+            }
+            @if (Model.PageNumber - 2 > 1)
+            {
+                <span>
+                    <a href="javascript:void(0)" onclick="updateTable(1)">1</a>
+                </span>
+                <span>
+                    ...
+                </span>
+            }
+            @for (var i = Model.PageNumber-2; i <= Model.PageNumber+2; i++)
+            {
+                if (i < Model.PageCount && i >= 1) {
+                    if(i == Model.PageNumber)
+                    {
+                        <span class="active">
+                            <strong>@i,</strong>
+                        </span>
+                    }
+                    else if (i == Model.PageNumber + 2)
+                    {
+
+                        <span>
+                            <a href="javascript:void(0)" onclick="updateTable(@i)">
+                                @i
+                            </a>
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            <a href="javascript:void(0)" onclick="updateTable(@i)">@i,</a>
+                        </span>
+                    }
+                }
+            }
+
+            @if (Model.PageNumber + 2 < Model.PageCount)
+            {
+                <span>
+                    ...
+                </span>
+                <span>
+                    <a href="javascript:void(0)" onclick="updateTable(@Model.PageCount)">@Model.PageCount</a>
+                </span>
+                <span>
+                    <a href="javascript:void(0)" onclick="updateTable(@ViewBag.NextPage)">Next Page</a>
+                </span>
+            }
+            else if (Model.PageNumber == Model.PageCount)
+            {
+                <span class="active">
+                    <strong>@Model.PageCount</strong>
+                </span>
+            }
+            else
+            {
+                <span>
+                    <a href="javascript:void(0)" onclick="updateTable(@Model.PageCount)">@Model.PageCount</a>
+                </span>
+                <span id="NextPage">
+                    <a href="javascript:void(0)" onclick="updateTable(@ViewBag.NextPage)">Next Page</a>
+                </span>
+            }
+    </div>
+}
+
+<script type="text/javascript">
+    // when document ready add event listener to table headings
+    $(document).ready(function () {
+        $('.tableHead').click(function (event) {
+            if (currentSort === "" || currentSort !== this.id.replace("Head", "")) {
+                currentSort = this.id.replace("Head", "");
+                console.log("1");
+                sortDirection = "Asc";
+            } else if (currentSort === this.id.replace("Head", "") && sortDirection === "Asc") {
+                sortDirection = "Desc";
+                console.log("2");
+            } else if (currentSort === this.id.replace("Head", "") && sortDirection == "Desc") {
+                currentSort = "";
+                sortDirection = "Asc";
+                console.log("3");
+            }
+            console.log("sort");
+            updateTable();
+        });
+    });
+
+    function changeRecord(dir) {
+        var pageSize = @Model.Count ;
+        var recordNum = parseInt( $('#tableData').find('.active-row').attr('id') );
+        if ( recordNum < pageSize ) {
+            if (dir === "next") {
+                $('#tableData').find('.active-row').addClass('inactive-row').removeClass('active-row');
+                $('#' + (recordNum + 1)).removeClass('inactive-row').addClass('active-row');
+                if ( recordNum === 1 ){
+                    $('#PrevRecordSpan').removeClass('hidden');
+                }
+                if ( @Model.PageNumber == @Model.PageCount && (recordNum+1) == pageSize )
+                {
+                    console.log("hide");
+                    $('#NextRecordSpan').addClass('hidden');
+                }
+                else
+                {
+                    $('#NextRecordSpan').removeClass('hidden');
+                }
+            } else if (dir === "prev" && recordNum != 1) {
+                $('#tableData').find('.active-row').addClass('inactive-row').removeClass('active-row');
+                $('#' + (recordNum - 1)).removeClass('inactive-row').addClass('active-row');
+                if ( (recordNum-1) == 1 && @Model.PageNumber == 1 ){
+                    console.log("hide");
+                    $('#PrevRecordSpan').addClass('hidden');
+                }
+                else
+                {
+                    $('#PrevRecordSpan').removeClass('hidden');
+                }
+            } else if (dir == "prev" && @Model.PageNumber != 1) {
+                updateTable( @ViewBag.PrevPage , @Model.PageSize);
+            }
+        } else if (dir === "next" && @Model.PageNumber < @Model.PageCount ) {
+            updateTable( @ViewBag.NextPage );
+        }
+    }
+</script>

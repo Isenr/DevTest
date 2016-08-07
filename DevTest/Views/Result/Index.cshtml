@@ -1,0 +1,93 @@
+﻿@model PagedList.IPagedList<DevTest.devTestUserResult>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+        <form class="navbar-form" role="search" id="SearchName" style="margin-left:0px">
+            <div>
+                <label for="NameSearch">Search by First / Last Name</label>
+            </div>
+            <div class="input-group" style="display:block">
+                @Html.TextBox("NameSearch", null, new { @class = "form-control", @placeholder = "Search", @style = "width:auto" })
+                <div class="input-group-btn" style="display:block">
+                    <input id="SearchSubmit" type="submit" value="Submit" class="btn btn-default" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+<div class="row" style="padding-left:50px;padding-right:50px">
+    <form class="form-horizontal" role="form">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-xs-12">
+                <div class="form-group">
+                    <div>
+                        <label for="Sites" class="control-label">Filter by site</label>
+                    </div>
+                    <div>
+                        @Html.DropDownList("Sites", null, htmlAttributes: new { @class = "form-control filter" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3 col-xs-12">
+                <div class="form-group">
+                    <div>
+                        <label class="control-label">Filter by test result</label>
+                    </div>
+                    <div>
+                        <span class="score-label">Between </span>
+                        @Html.TextBox("lowScore", null, new
+                        {
+                            @class = "form-control filter score-input",
+                            @placeholder = "0",
+                            @size = ViewBag.ScoreLength,
+                            @maxlength = ViewBag.ScoreLength,
+                            @style = "width:" + (ViewBag.ScoreLength + 1) + "em;"
+                        })
+                        <span class="score-label"> and </span>
+                        @*<input class="form-control" placeholder="20" type="text" maxlength="@ViewBag.ScoreLength" style="width:4em" />*@
+                        @Html.TextBox("upScore", null, new
+                       {
+                           @class = "form-control filter score-input",
+                           @placeholder = "20",
+                           @size = ViewBag.ScoreLength,
+                           @maxlength = ViewBag.ScoreLength,
+                           @style = "width:" + (ViewBag.ScoreLength + 1) + "em;"
+                       })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4 col-xs-12">
+                <div class="form-group">
+                    <div>
+                        <label for="daterange" class="control-label">Filter by Test Date Range</label>
+                    </div>
+                    <div>
+                        <input type="text" id="daterange" class="form-control" style="width:auto;display:inline;">
+                        <div class="input-group-btn" style="display:inline;margin-left:-4px">
+                            <i id="calendarglyph" class="btn btn-default glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2 col-xs-12">
+                <div>
+                    <label for="ClearFilters" class="control-label"></label>
+                </div>
+                <div class="form-group" style="padding-top:7px">
+                    <input id="ClearFilters" type="button" value="Reset all filters" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<hr />
+
+<div id="dataSection">
+    @Html.Partial("_ResultTable", Model)
+</div>
